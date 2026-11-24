@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+<div class="encabezado">
+  <h1>Clientes</h1>
+  <% if (usuario.permisos.includes('CREAR')) { %><a class="boton" href="/clientes/nuevo">Nuevo cliente</a><% } %>
+</div>
+<%- include('../partials/mensaje') %>
+<% if (!sensibles) { %>
+  <p class="nota">Su rol es de solo lectura: los datos personales y de emergencia están ocultos.</p>
+<% } %>
+<div class="tabla-scroll">
+<table id="tabla-clientes">
+  <thead>
+    <tr><th>Nombre</th><th>Cédula</th>
+      <% if (sensibles) { %><th>Teléfono</th><th>Contacto de emergencia</th><% } %>
+      <th>Última membresía vence</th>
+      <% if (sensibles) { %><th>Acciones</th><% } %></tr>
+  </thead>
+  <tbody>
+  <% clientes.forEach(function (c) { %>
+    <tr>
+      <td><%= c.nombre %></td>
+      <td><%= c.cedula %></td>
+      <% if (sensibles) { %>
+        <td><%= c.telefono %></td>
+        <td><%= c.emergencia_nombre %> · <%= c.emergencia_telefono %></td>
+      <% } %>
+      <td><%= c.vence ? new Date(c.vence).toLocaleDateString('es-CR', { timeZone: 'UTC' }) : 'Sin membresía' %></td>
+      <% if (sensibles) { %>
+      <td class="acciones">
+        <a href="/clientes/<%= c.id %>/editar">Editar</a>
+        <% if (usuario.permisos.includes('CREAR')) { %><a href="/membresias/nueva?cliente_id=<%= c.id %>">Vender membresía</a><% } %>
+        <% if (usuario.permisos.includes('BORRAR')) { %>
+        <form method="post" action="/clientes/<%= c.id %>/eliminar" class="en-linea">
+          <%- include('../partials/csrf') %>
+          <button type="submit" class="enlace peligro">Borrar</button>
+        </form>
+        <% } %>
+      </td>
+      <% } %>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('../partials/footer') %>

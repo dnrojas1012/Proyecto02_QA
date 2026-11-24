@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+<section class="tarjeta formulario">
+  <h1><%= titulo %></h1>
+  <%- include('../partials/errores') %>
+  <form method="post" action="<%= editar ? '/clientes/' + editar.id : '/clientes' %>">
+    <%- include('../partials/csrf') %>
+    <label for="cedula">Cédula</label>
+    <input id="cedula" name="cedula" maxlength="20" required value="<%= datos.cedula %>">
+    <label for="nombre">Nombre completo</label>
+    <input id="nombre" name="nombre" maxlength="100" required value="<%= datos.nombre %>">
+    <label for="telefono">Teléfono</label>
+    <input id="telefono" name="telefono" maxlength="20" required value="<%= datos.telefono %>">
+    <label for="emergencia_nombre">Contacto de emergencia (nombre)</label>
+    <input id="emergencia_nombre" name="emergencia_nombre" maxlength="100" required value="<%= datos.emergencia_nombre %>">
+    <label for="emergencia_telefono">Contacto de emergencia (teléfono)</label>
+    <input id="emergencia_telefono" name="emergencia_telefono" maxlength="20" required value="<%= datos.emergencia_telefono %>">
+    <button type="submit" class="boton">Guardar</button>
+    <a href="/clientes">Cancelar</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>
