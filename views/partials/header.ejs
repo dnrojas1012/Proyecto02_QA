@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= titulo %> · Gimnasio Seguro</title>
+  <meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body<% if (usuario) { %> data-timeout="<%= timeoutSegundos %>"<% } %>>
+<header class="barra">
+  <a class="marca" href="/">Gimnasio Seguro</a>
+  <% if (usuario) { %>
+    <nav class="menu">
+      <a href="/">Inicio</a>
+      <a href="/clientes">Clientes</a>
+      <a href="/membresias">Membresías</a>
+      <a href="/asistencia">Asistencia</a>
+      <a href="/reportes/por-vencer">Por vencer</a>
+      <a href="/usuarios">Usuarios</a>
+      <% if (usuario.rol === 'SuperAdmin') { %>
+        <a href="/roles">Roles</a>
+        <a href="/bitacora">Bitácora</a>
+      <% } %>
+    </nav>
+    <div class="cuenta">
+      <span><%= usuario.nombre %> · <strong><%= usuario.rol %></strong></span>
+      <form method="post" action="/logout" class="en-linea">
+        <%- include('csrf') %>
+        <button type="submit" class="boton secundario">Salir</button>
+      </form>
+    </div>
+  <% } %>
+</header>
+<main class="contenido">

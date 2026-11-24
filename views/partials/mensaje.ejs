@@ -1,0 +1,15 @@
+<% var textos = {
+  creado: ['ok', 'Registro creado correctamente.'],
+  editado: ['ok', 'Cambios guardados.'],
+  borrado: ['ok', 'Registro borrado.'],
+  'no-borrado': ['error', 'No se pudo borrar el registro.'],
+  sistema: ['error', 'Los roles del sistema no se pueden borrar.'],
+  'en-uso': ['error', 'No se puede borrar: hay usuarios con ese rol.'],
+  'con-membresias': ['error', 'No se puede borrar: el cliente tiene membresías registradas.'],
+  vendida: ['ok', 'Membresía vendida correctamente.'],
+  renovada: ['ok', 'Membresía renovada correctamente.'],
+  'renovada-no-borra': ['error', 'No se puede borrar: esa membresía ya fue renovada.']
+}; %>
+<% if (typeof ok !== 'undefined' && ok && textos[ok]) { %>
+  <p class="alerta <%= textos[ok][0] %>" role="status"><%= textos[ok][1] %></p>
+<% } %>

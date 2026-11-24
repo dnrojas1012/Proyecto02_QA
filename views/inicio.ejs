@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+<h1>Bienvenido, <%= usuario.nombre %></h1>
+<p>Rol: <strong><%= usuario.rol %></strong></p>
+<p>Permisos de su rol:
+  <% if (usuario.permisos.length === 0) { %>
+    <em>solo lectura</em>
+  <% } else { %>
+    <% usuario.permisos.forEach(function (p) { %><span class="etiqueta"><%= p %></span> <% }) %>
+  <% } %>
+</p>
+<p class="nota">Por seguridad, la sesión se cierra tras <%= timeoutSegundos %> segundos sin actividad.</p>
+<%- include('partials/footer') %>

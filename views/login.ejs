@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<section class="tarjeta login">
+  <h1>Iniciar sesión</h1>
+  <% if (expirada) { %>
+    <p class="alerta info">Su sesión se cerró por inactividad. Ingrese de nuevo.</p>
+  <% } %>
+  <% if (error) { %>
+    <p class="alerta error" role="alert"><%= error %></p>
+  <% } %>
+  <form method="post" action="/login" autocomplete="off">
+          <%- include('partials/csrf') %>
+    <label for="username">Usuario</label>
+    <input id="username" name="username" maxlength="30" required value="<%= username %>">
+    <label for="password">Contraseña</label>
+    <input id="password" name="password" type="password" maxlength="128" required>
+    <button type="submit" class="boton" id="btn-ingresar">Ingresar</button>
+  </form>
+</section>
+<%- include('partials/footer') %>
