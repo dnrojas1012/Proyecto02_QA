@@ -1,0 +1,32 @@
+{
+  "name": "gimnasio-seguro",
+  "version": "1.0.0",
+  "description": "Sistema web seguro de gimnasio y membresías - Proyecto 2 ISW-622",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:init": "node db/init.js",
+    "test": "playwright test",
+    "test:reporte": "playwright show-report",
+    "start:render": "node db/init.js --si-vacia && node src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "argon2": "^0.45.2",
+    "connect-pg-simple": "^10.0.0",
+    "csrf-sync": "^4.2.1",
+    "dotenv": "^18.0.10",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
