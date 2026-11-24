@@ -52,7 +52,7 @@ Proyecto 2 de ISW-622 Pruebas de Software (UTN, Sede San Carlos), III Cuatrimest
 
 ## Ambiente publicado
 
-- Aplicación: **URL_DE_RENDER** (HTTPS)
+- Aplicación: https://gimnasio-seguro-utn.onrender.com (HTTPS)
 - Hosting: Render, plan gratuito. `render.yaml` crea la base PostgreSQL y la aplicación web (New + → Blueprint).
 - Al arrancar, `npm run start:render` crea las tablas y los datos de ejemplo solo si la base está vacía.
 - Tras unos 15 minutos sin uso la app se suspende y la primera carga tarda cerca de un minuto.
