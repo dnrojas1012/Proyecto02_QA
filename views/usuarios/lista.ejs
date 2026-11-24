@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+<div class="encabezado">
+  <h1>Usuarios</h1>
+  <% if (usuario.rol === 'SuperAdmin') { %><a class="boton" href="/usuarios/nuevo">Nuevo usuario</a><% } %>
+</div>
+<%- include('../partials/mensaje') %>
+<div class="tabla-scroll">
+<table id="tabla-usuarios">
+  <thead>
+    <tr><th>Nombre</th><th>Usuario</th><th>Identificación</th><th>Rol</th><th>Permisos</th>
+        <th>Último inicio de sesión</th><th>Estado</th>
+        <% if (usuario.rol === 'SuperAdmin') { %><th>Acciones</th><% } %></tr>
+  </thead>
+  <tbody>
+  <% usuarios.forEach(function (u) { %>
+    <tr>
+      <td><%= u.nombre %></td>
+      <td><%= u.username %></td>
+      <td><%= u.identificacion %></td>
+      <td><%= u.rol %></td>
+      <td><%= u.permisos %></td>
+      <td><%= u.ultimo_login ? new Date(u.ultimo_login).toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' }) : 'Nunca' %></td>
+      <td><%= u.activo ? 'Activo' : 'Inactivo' %></td>
+      <% if (usuario.rol === 'SuperAdmin') { %>
+      <td class="acciones">
+        <a href="/usuarios/<%= u.id %>/editar">Editar</a>
+        <% if (u.id !== usuario.id) { %>
+        <form method="post" action="/usuarios/<%= u.id %>/eliminar" class="en-linea">
+          <%- include('../partials/csrf') %>
+          <button type="submit" class="enlace peligro">Borrar</button>
+        </form>
+        <% } %>
+      </td>
+      <% } %>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('../partials/footer') %>

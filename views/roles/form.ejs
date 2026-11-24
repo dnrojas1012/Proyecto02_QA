@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<section class="tarjeta formulario">
+  <h1><%= titulo %></h1>
+  <%- include('../partials/errores') %>
+  <form method="post" action="<%= editar ? '/roles/' + editar.id : '/roles' %>">
+    <%- include('../partials/csrf') %>
+    <label for="nombre">Nombre del rol</label>
+    <input id="nombre" name="nombre" maxlength="50" required value="<%= datos.nombre %>"
+           <%= editar && editar.es_sistema ? 'readonly' : '' %>>
+    <label for="descripcion">Descripción</label>
+    <input id="descripcion" name="descripcion" maxlength="200" value="<%= datos.descripcion %>">
+    <fieldset>
+      <legend>Permisos</legend>
+      <% permisos.forEach(function (p) { %>
+        <label class="check">
+          <input type="checkbox" name="permisos" value="<%= p.id %>"
+                 <%= datos.permisos.includes(p.id) ? 'checked' : '' %>
+                 <%= editar && editar.nombre === 'SuperAdmin' ? 'disabled' : '' %>>
+          <%= p.nombre %>
+        </label>
+      <% }) %>
+      <% if (editar && editar.nombre === 'SuperAdmin') { %>
+        <p class="nota">El SuperAdmin conserva siempre todos los permisos.</p>
+      <% } %>
+    </fieldset>
+    <button type="submit" class="boton">Guardar</button>
+    <a href="/roles">Cancelar</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>

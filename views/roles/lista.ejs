@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<div class="encabezado">
+  <h1>Roles y permisos</h1>
+  <a class="boton" href="/roles/nuevo">Nuevo rol</a>
+</div>
+<%- include('../partials/mensaje') %>
+<p class="nota">Los permisos se asignan a los roles, nunca directamente a un usuario.</p>
+<table id="tabla-roles">
+  <thead><tr><th>Rol</th><th>Descripción</th><th>Permisos</th><th>Usuarios</th><th>Acciones</th></tr></thead>
+  <tbody>
+  <% roles.forEach(function (r) { %>
+    <tr>
+      <td><%= r.nombre %><% if (r.es_sistema) { %> <span class="etiqueta">sistema</span><% } %></td>
+      <td><%= r.descripcion %></td>
+      <td><%= r.permisos %></td>
+      <td><%= r.usuarios %></td>
+      <td class="acciones">
+        <a href="/roles/<%= r.id %>/editar">Editar</a>
+        <% if (!r.es_sistema) { %>
+        <form method="post" action="/roles/<%= r.id %>/eliminar" class="en-linea">
+          <%- include('../partials/csrf') %>
+          <button type="submit" class="enlace peligro">Borrar</button>
+        </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>

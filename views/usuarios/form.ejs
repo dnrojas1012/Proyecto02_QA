@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<section class="tarjeta formulario">
+  <h1><%= titulo %></h1>
+  <%- include('../partials/errores') %>
+  <form method="post" action="<%= editar ? '/usuarios/' + editar.id : '/usuarios' %>">
+    <%- include('../partials/csrf') %>
+    <label for="username">Usuario</label>
+    <input id="username" name="username" maxlength="30" required value="<%= datos.username %>">
+    <label for="identificacion">Identificación</label>
+    <input id="identificacion" name="identificacion" maxlength="20" required value="<%= datos.identificacion %>">
+    <label for="nombre">Nombre completo</label>
+    <input id="nombre" name="nombre" maxlength="100" required value="<%= datos.nombre %>">
+    <label for="correo">Correo</label>
+    <input id="correo" name="correo" type="email" maxlength="120" required value="<%= datos.correo %>">
+    <label for="rol_id">Rol</label>
+    <select id="rol_id" name="rol_id" required>
+      <option value="">Seleccione...</option>
+      <% roles.forEach(function (r) { %>
+        <option value="<%= r.id %>" <%= datos.rol_id === r.id ? 'selected' : '' %>><%= r.nombre %></option>
+      <% }) %>
+    </select>
+    <label for="password">Contraseña <% if (editar) { %><small>(déjela vacía para no cambiarla)</small><% } %></label>
+    <input id="password" name="password" type="password" maxlength="128" <%= editar ? '' : 'required' %> autocomplete="new-password">
+    <label class="check"><input type="checkbox" name="activo" <%= datos.activo ? 'checked' : '' %>> Activo</label>
+    <button type="submit" class="boton">Guardar</button>
+    <a href="/usuarios">Cancelar</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>

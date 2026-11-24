@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+<h1>Bitácora de auditoría</h1>
+<form method="get" action="/bitacora" class="filtros">
+  <label for="evento">Evento</label>
+  <select id="evento" name="evento">
+    <option value="">Todos</option>
+    <% eventos.forEach(function (e) { %>
+      <option value="<%= e %>" <%= evento === e ? 'selected' : '' %>><%= e %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="boton">Filtrar</button>
+</form>
+<div class="tabla-scroll">
+<table id="tabla-bitacora">
+  <thead><tr><th>Fecha y hora</th><th>Evento</th><th>Usuario</th><th>IP</th><th>Ruta</th><th>Detalle</th></tr></thead>
+  <tbody>
+  <% registros.forEach(function (r) { %>
+    <tr>
+      <td><%= new Date(r.fecha).toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' }) %></td>
+      <td><%= r.evento %></td>
+      <td><%= r.username || '-' %></td>
+      <td><%= r.ip %></td>
+      <td><%= r.ruta %></td>
+      <td><%= r.detalle %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('partials/footer') %>
