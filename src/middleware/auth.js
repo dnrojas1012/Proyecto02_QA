@@ -35,7 +35,8 @@ function requiereSesion(req, res, next) {
   if (req.originalUrl.startsWith('/api/')) return res.status(401).json({ error: 'Sesión requerida' });
   // Si el navegador trae cookie de sesión pero ya no es válida, venció por inactividad
   const teniaCookie = (req.headers.cookie || '').includes('gym.sid=');
-  return res.redirect(teniaCookie ? '/login?expirada=1' : '/login');
+  // Se redirige al login y se notifica (no se muestran códigos de error crudos)
+  return res.redirect(teniaCookie ? '/login?expirada=1' : '/login?requiere=1');
 }
 
 module.exports = { cargarUsuario, requiereSesion };

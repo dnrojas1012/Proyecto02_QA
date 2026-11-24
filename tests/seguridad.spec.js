@@ -80,6 +80,9 @@ test.describe('Sesión y cookies (UTN-07c)', () => {
       expect(r.status(), ruta).toBe(302);
       expect(r.headers()['location'], ruta).toMatch(/\/login/);
     }
+    // Se notifica en el login por qué se le redirigió
+    const login = await anonimo.get('/login?requiere=1');
+    expect(await login.text()).toContain('Debe iniciar sesión');
     const api = await anonimo.get('/api/usuarios');
     expect(api.status()).toBe(401);
     await anonimo.dispose();
@@ -91,7 +94,7 @@ test.describe('Control de acceso 403 (UTN-05, UTN-06)', () => {
     await iniciarSesion(page, 'auditor');
     const resp = await page.goto('/roles');
     expect(resp.status()).toBe(403);
-    await expect(page.locator('h1')).toHaveText('Error 403');
+    await expect(page.locator('h1')).toHaveText('Acceso denegado');   // mensaje claro, sin código crudo
     const html = await page.content();
     expect(html).not.toMatch(/at .*\.js:\d+/);   // sin stack trace
     expect(html).not.toContain('node_modules');

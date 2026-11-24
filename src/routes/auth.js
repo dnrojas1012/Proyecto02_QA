@@ -17,6 +17,7 @@ router.get('/login', (req, res) => {
     titulo: 'Iniciar sesión',
     error: null,
     expirada: req.query.expirada === '1',
+    requiere: req.query.requiere === '1',
     username: '',
   });
 });
@@ -29,6 +30,7 @@ router.post('/login', async (req, res, next) => {
       titulo: 'Iniciar sesión',
       error: 'Usuario o contraseña incorrectos.',
       expirada: false,
+      requiere: false,
       username,
     });
 

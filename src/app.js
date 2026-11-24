@@ -73,7 +73,7 @@ app.use(async (err, req, res, next) => {
   }
   console.error(err);                              // el detalle solo queda en el servidor
   if (req.originalUrl.startsWith('/api/')) return res.status(500).json({ error: 'Error interno' });
-  res.status(500).render('error', { titulo: 'Error', codigo: 500, mensaje: 'Ocurrió un error inesperado. Intente de nuevo.' });
+  res.status(500).render('error', { titulo: 'Algo salió mal', codigo: 500, mensaje: 'Ocurrió un error inesperado. Intente de nuevo.' });
 });
 
 module.exports = app;

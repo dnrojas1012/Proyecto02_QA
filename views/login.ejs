@@ -4,6 +4,9 @@
   <% if (expirada) { %>
     <p class="alerta info">Su sesión se cerró por inactividad. Ingrese de nuevo.</p>
   <% } %>
+  <% if (typeof requiere !== 'undefined' && requiere) { %>
+    <p class="alerta info">Debe iniciar sesión para acceder a esa página.</p>
+  <% } %>
   <% if (error) { %>
     <p class="alerta error" role="alert"><%= error %></p>
   <% } %>
