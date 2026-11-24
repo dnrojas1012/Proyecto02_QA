@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+<h1>Control de asistencia</h1>
+<% if (usuario.permisos.includes('CREAR')) { %>
+<section class="tarjeta formulario">
+  <form method="post" action="/asistencia">
+    <%- include('../partials/csrf') %>
+    <label for="cedula">Cédula del cliente</label>
+    <input id="cedula" name="cedula" maxlength="20" required value="<%= cedula %>" autofocus>
+    <button type="submit" class="boton">Registrar entrada</button>
+  </form>
+</section>
+<% } %>
+<% if (mensaje) { %><p class="alerta <%= mensaje.tipo %>" role="status" id="mensaje-asistencia"><%= mensaje.texto %></p><% } %>
+<h2>Entradas de hoy</h2>
+<table id="tabla-asistencia">
+  <thead><tr><th>Hora</th><th>Cliente</th><th>Membresía</th></tr></thead>
+  <tbody>
+  <% entradas.forEach(function (e) { %>
+    <tr><td><%= new Date(e.hora).toLocaleTimeString('es-CR', { timeZone: 'America/Costa_Rica' }) %></td>
+        <td><%= e.nombre %></td><td><%= e.codigo %></td></tr>
+  <% }) %>
+  <% if (!entradas.length) { %><tr><td colspan="3">Sin entradas hoy.</td></tr><% } %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>

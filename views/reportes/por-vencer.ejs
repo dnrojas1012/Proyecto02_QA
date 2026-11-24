@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+<h1>Membresías que vencen en los próximos <%= dias %> días</h1>
+<table id="tabla-por-vencer">
+  <thead><tr><th>Código</th><th>Cliente</th><th>Teléfono</th><th>Plan</th><th>Vence</th><th>Días restantes</th><th></th></tr></thead>
+  <tbody>
+  <% filas.forEach(function (f) { %>
+    <tr>
+      <td><%= f.codigo %></td><td><%= f.cliente %></td><td><%= f.telefono %></td><td><%= f.plan %></td>
+      <td><%= new Date(f.fecha_vencimiento).toLocaleDateString('es-CR', { timeZone: 'UTC' }) %></td>
+      <td><%= f.dias %></td>
+      <td><% if (usuario.permisos.includes('CREAR')) { %><a href="/membresias/<%= f.id %>/renovar">Renovar</a><% } %></td>
+    </tr>
+  <% }) %>
+  <% if (!filas.length) { %><tr><td colspan="7">No hay membresías por vencer.</td></tr><% } %>
+  </tbody>
+</table>
+<%- include('../partials/footer') %>
