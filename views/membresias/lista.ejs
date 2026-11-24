@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+<div class="encabezado">
+  <h1>Membresías</h1>
+  <% if (usuario.permisos.includes('CREAR')) { %><a class="boton" href="/membresias/nueva">Vender membresía</a><% } %>
+</div>
+<%- include('../partials/mensaje') %>
+<% if (codigo) { %><p class="nota">Código: <strong><%= codigo %></strong></p><% } %>
+<form method="get" action="/membresias" class="filtros">
+  <label for="q">Buscar por código o cliente</label>
+  <input id="q" name="q" maxlength="50" value="<%= q %>">
+  <button type="submit" class="boton">Buscar</button>
+</form>
+<% if (q) { %><p id="resultado-busqueda">Resultados para: <strong><%= q %></strong> (<%= membresias.length %>)</p><% } %>
+<div class="tabla-scroll">
+<table id="tabla-membresias">
+  <thead><tr><th>Código</th><th>Cliente</th><th>Plan</th><th>Inicio</th><th>Vencimiento</th><th>Monto</th><th>Estado</th>
+    <% if (usuario.permisos.length) { %><th>Acciones</th><% } %></tr></thead>
+  <tbody>
+  <% membresias.forEach(function (m) { %>
+    <tr>
+      <td><%= m.codigo %></td>
+      <td><%= m.cliente %></td>
+      <td><%= m.plan %></td>
+      <td><%= new Date(m.fecha_inicio).toLocaleDateString('es-CR', { timeZone: 'UTC' }) %></td>
+      <td><%= new Date(m.fecha_vencimiento).toLocaleDateString('es-CR', { timeZone: 'UTC' }) %></td>
+      <td>₡<%= Number(m.monto).toLocaleString('es-CR') %></td>
+      <td><span class="estado <%= m.estado.replace(' ', '-').toLowerCase() %>"><%= m.estado %></span></td>
+      <% if (usuario.permisos.length) { %>
+      <td class="acciones">
+        <% if (usuario.permisos.includes('EDITAR')) { %><a href="/membresias/<%= m.id %>/editar">Editar</a><% } %>
+        <% if (usuario.permisos.includes('CREAR') && (m.estado === 'Vencida' || m.estado === 'Por vencer')) { %>
+          <a href="/membresias/<%= m.id %>/renovar">Renovar</a><% } %>
+        <% if (usuario.permisos.includes('BORRAR')) { %>
+        <form method="post" action="/membresias/<%= m.id %>/eliminar" class="en-linea">
+          <%- include('../partials/csrf') %>
+          <button type="submit" class="enlace peligro">Borrar</button>
+        </form>
+        <% } %>
+      </td>
+      <% } %>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<%- include('../partials/footer') %>

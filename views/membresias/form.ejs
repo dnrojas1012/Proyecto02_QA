@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<section class="tarjeta formulario">
+  <h1><%= titulo %></h1>
+  <%- include('../partials/errores') %>
+  <form method="post" action="<%= editar ? '/membresias/' + editar.id : '/membresias' %>">
+    <%- include('../partials/csrf') %>
+    <label for="cliente_id">Cliente</label>
+    <select id="cliente_id" name="cliente_id" required <%= editar ? 'disabled' : '' %>>
+      <option value="">Seleccione...</option>
+      <% clientes.forEach(function (c) { %>
+        <option value="<%= c.id %>" <%= Number(datos.cliente_id) === c.id ? 'selected' : '' %>><%= c.nombre %></option>
+      <% }) %>
+    </select>
+    <label for="plan">Plan</label>
+    <select id="plan" name="plan" required>
+      <% [['MENSUAL','Mensual (1 mes)'],['TRIMESTRAL','Trimestral (3 meses)'],['ANUAL','Anual (12 meses)']].forEach(function (p) { %>
+        <option value="<%= p[0] %>" <%= datos.plan === p[0] ? 'selected' : '' %>><%= p[1] %></option>
+      <% }) %>
+    </select>
+    <label for="fecha_inicio">Fecha de inicio</label>
+    <input id="fecha_inicio" name="fecha_inicio" type="date" required value="<%= datos.fecha_inicio %>">
+    <label for="monto">Monto pagado (₡)</label>
+    <input id="monto" name="monto" inputmode="decimal" required value="<%= datos.monto %>">
+    <p class="nota">La fecha de vencimiento se calcula sola: inicio + duración del plan − 1 día.</p>
+    <button type="submit" class="boton">Guardar</button>
+    <a href="/membresias">Cancelar</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>

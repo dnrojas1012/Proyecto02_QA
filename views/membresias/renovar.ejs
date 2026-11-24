@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<section class="tarjeta formulario">
+  <h1><%= titulo %></h1>
+  <p>Cliente: <strong><%= m.cliente %></strong><br>
+     Vence: <strong><%= new Date(m.fecha_vencimiento).toLocaleDateString('es-CR', { timeZone: 'UTC' }) %></strong>
+     (<%= m.dias_restantes < 0 ? 'vencida hace ' + (-m.dias_restantes) + ' días' : 'faltan ' + m.dias_restantes + ' días' %>)</p>
+  <%- include('../partials/errores') %>
+  <form method="post" action="/membresias/<%= m.id %>/renovar">
+    <%- include('../partials/csrf') %>
+    <label for="plan">Plan</label>
+    <select id="plan" name="plan" required>
+      <% [['MENSUAL','Mensual'],['TRIMESTRAL','Trimestral'],['ANUAL','Anual']].forEach(function (p) { %>
+        <option value="<%= p[0] %>" <%= datos.plan === p[0] ? 'selected' : '' %>><%= p[1] %></option>
+      <% }) %>
+    </select>
+    <label for="monto">Monto pagado (₡)</label>
+    <input id="monto" name="monto" inputmode="decimal" required value="<%= datos.monto %>">
+    <p class="nota">La renovación empieza el día después del vencimiento, o hoy si ya venció.</p>
+    <button type="submit" class="boton">Renovar</button>
+    <a href="/membresias">Cancelar</a>
+  </form>
+</section>
+<%- include('../partials/footer') %>
