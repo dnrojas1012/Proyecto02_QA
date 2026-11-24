@@ -1,0 +1,31 @@
+# Despliegue en Render (plan gratuito) con un solo clic: New + > Blueprint.
+# Crea la base PostgreSQL y la aplicación web. Los secretos no se guardan en el repositorio.
+databases:
+  - name: gimnasio-db
+    plan: free
+    databaseName: gimnasio_seguro
+    user: gimnasio
+
+services:
+  - type: web
+    name: gimnasio-seguro-utn
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm run start:render
+    healthCheckPath: /login
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gimnasio-db
+          property: connectionString
+      - key: DB_SSL
+        value: "false"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_TIMEOUT_SECONDS
+        value: "60"
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
